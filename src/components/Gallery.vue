@@ -25,13 +25,13 @@ export default {
     };
   },
   created() {
+    this.loading = true;
     const key = '12550370-9bcf939b4d9fb67e7f043dfce';
     axios
       .get(
         `https://pixabay.com/api/?key=${key}&per_page=48&image_type=photo&category=backgrounds`
       )
       .then(response => {
-        this.loading = true;
         // console.log(response.data.hits);
         for (let i = 0; i <= response.data.hits.length; i++) {
           const imgUrl = response.data.hits[i].largeImageURL;

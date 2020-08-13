@@ -38,8 +38,8 @@
           </div>
         </div>
       </div>
-      <app-loader v-if="loading === true" class="loader"></app-loader>
     </div>
+    <app-loader v-if="loading === true" class="loader"></app-loader>
   </div>
 </template>
 
@@ -80,6 +80,17 @@ export default {
 
   @media screen and (max-width: 576px) {
     padding: 1rem;
+  }
+
+  .loader {
+    position: fixed;
+    z-index: 1000;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0f3443;
   }
 
   .images-container {

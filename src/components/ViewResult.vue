@@ -39,6 +39,7 @@
         </button>
       </form>
     </div>
+    <app-loader class="loader" v-if="loading === true"></app-loader>
     <div
       v-if="imageData.length > 0 && !searchedData.length > 0"
       class="images-container"
@@ -175,9 +176,10 @@
 
 <script>
 import axios from 'axios';
+import Loader from './Loader';
 
 export default {
-  props: ['imageData'],
+  props: ['imageData', 'loading'],
   data() {
     return {
       searched: '',
@@ -202,6 +204,7 @@ export default {
       });
     },
     searchImage() {
+      this.loading = true;
       this.searchedData = [];
       const key = '12550370-9bcf939b4d9fb67e7f043dfce';
       axios
@@ -225,6 +228,7 @@ export default {
               favorites,
               user
             });
+            this.loading = false;
           }
         })
         .catch(err => err.message);
@@ -236,6 +240,7 @@ export default {
     }
   },
   created() {
+    this.loading = true;
     const key = '12550370-9bcf939b4d9fb67e7f043dfce';
     axios
       .get(
@@ -261,6 +266,9 @@ export default {
         }
       })
       .catch(err => err.message);
+  },
+  components: {
+    appLoader: Loader
   }
 };
 </script>
@@ -274,6 +282,17 @@ export default {
 
   @media screen and (max-width: 576px) {
     padding: 1rem;
+  }
+
+  .loader {
+    position: fixed;
+    z-index: 1000;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0f3443;
   }
 
   .search-icon-container {
