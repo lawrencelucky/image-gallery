@@ -1,7 +1,31 @@
 <template>
   <div class="gallery-view-container search-view">
+    <div class="search-icon-container">
+      <img
+        @click="displaySearch = !displaySearch"
+        src="../assets/search.svg"
+        alt=""
+        class="search-icon"
+      />
+    </div>
     <div
-      class="search-container small-input fixed-top d-flex justify-content-end py-3 pr-4 mt-2"
+      v-if="displaySearch === true"
+      class="search-container small-input fixed-top d-flex justify-content-end py-3 pr-4 mt-2 mobile-search"
+    >
+      <form action="#">
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Search for images..."
+          v-model.lazy="searched"
+        />
+        <button @click.prevent="searchImage">
+          <img class="search-icon" src="../assets/search2.svg" alt="" />
+        </button>
+      </form>
+    </div>
+    <div
+      class="search-container small-input fixed-top d-flex justify-content-end py-3 pr-4 mt-2 desktop-search"
     >
       <form action="#">
         <input
@@ -158,7 +182,8 @@ export default {
     return {
       searched: '',
       defaultData: [],
-      searchedData: []
+      searchedData: [],
+      displaySearch: false
     };
   },
   methods: {
@@ -204,6 +229,7 @@ export default {
         })
         .catch(err => err.message);
       this.searched = '';
+      this.displaySearch = false;
       window.scrollTo({
         top: 0
       });
@@ -240,12 +266,6 @@ export default {
 </script>
 
 <style lang="scss">
-.search-view {
-  @media screen and (max-width: 576px) {
-    margin-top: 13rem !important;
-  }
-}
-
 .gallery-view-container {
   min-height: 80vh;
   padding: 3rem;
@@ -259,11 +279,27 @@ export default {
   .search-icon-container {
     position: fixed;
     top: 1.5rem;
-    right: 2rem !important;
+    right: 2rem;
     z-index: 1000;
+
+    @media screen and (min-width: 576px) {
+      display: none !important;
+    }
 
     .search-icon {
       width: 3rem;
+    }
+  }
+
+  .desktop-search {
+    @media screen and (max-width: 576px) {
+      display: none !important;
+    }
+  }
+
+  .mobile-search {
+    @media screen and (min-width: 576px) {
+      display: none !important;
     }
   }
 
